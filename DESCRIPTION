@@ -1,8 +1,8 @@
 Package: kangar00
 Type: Package
 Title: Kernel Approaches for Nonlinear Genetic Association Regression
-Version: 1.0
-Date: 2017-04-26
+Version: 1.1
+Date: 2017-08-07
 Author: Juliane Manitz [aut], Stefanie Friedrichs [aut], Patricia Burger [aut], 
     Benjamin Hofner [aut], Ngoc Thuy Ha [aut], Saskia Freytag [ctb],
     Heike Bickeboeller [ctb]
@@ -23,6 +23,6 @@ Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 NeedsCompilation: no
 RoxygenNote: 6.0.1
-Packaged: 2017-04-26 16:07:01 UTC; hofbe
+Packaged: 2017-08-08 02:05:27 UTC; jmanitz
 Repository: CRAN
-Date/Publication: 2017-04-27 11:41:53 UTC
+Date/Publication: 2017-08-08 10:05:13 UTC
