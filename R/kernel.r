@@ -19,6 +19,11 @@ NULL
 #' @slot kernel A kernel \code{matrix} of dimension equal to the number of individuals
 #' @slot pathway A \code{\link{pathway}} object
 #'
+#' @examples
+#' data(gwas)
+#' data(hsa04020)
+#' net_kernel <- calc_kernel(gwas, hsa04020, knots=NULL, type='net', calculation='cpu')
+#'
 #' @author Juliane Manitz
 #' @export
 #' @import methods
@@ -71,11 +76,13 @@ setValidity('kernel', function(object){
 #'
 #' @examples
 #' data(gwas)
-#' calc_kernel(gwas, hsa04020, knots=gwas, type='lin', calculation='cpu') 
-#' \dontrun{
-#' gwas2 <- new('GWASdata', pheno=pheno[1:10,], geno=geno[1:10,], anno=anno, desc=" study 2")
-#' calc_kernel(gwas, hsa04020, knots = gwas2, type='net', calculation='cpu')
-#' }
+#' data(hsa04020)
+#' square <- calc_kernel(gwas, hsa04020, knots=gwas, type='lin', calculation='cpu')
+#' dim(square@kernel)
+#'
+#' gwas2 <- new('GWASdata', pheno=pheno[1:10,], geno=geno[1:10,], anno=anno, desc="study 2")
+#' low_rank <- calc_kernel(gwas, hsa04020, knots = gwas2, type='net', calculation='cpu')
+#' dim(low_rank@kernel)
 #' @author Juliane Manitz
 #' @export
 #' @import methods
@@ -95,7 +102,7 @@ setValidity('lowrank_kernel', function(object){
 
 # calculate kernel object
 setGeneric('calc_kernel', function(object, ...) standardGeneric('calc_kernel'))
-#' Calculates the kernel-matrix for a pathway
+#' Calculate the kernel-matrix for a pathway
 #'
 #' Uses individuals' genotypes to create a \code{\link{kernel}} object including 
 #' the calculated kernel \code{matrix} for a specific \code{\link{pathway}}.
@@ -142,16 +149,20 @@ setGeneric('calc_kernel', function(object, ...) standardGeneric('calc_kernel'))
 #'  \item Freytag S, Manitz J, Schlather M, Kneib T, Amos CI, Risch A, Chang-Claude J, Heinrich J, Bickeboeller H: A network-based kernel machine test for the identification of risk pathways in genome-wide association studies. Hum Hered. 2013, 76(2):64-75.
 #' }
 #'
+#' @author Stefanie Friedrichs, Juliane Manitz
 #' @examples
 #' data(gwas)
 #' data(hsa04020)
-#' calc_kernel(gwas, hsa04020, knots = NULL, type='net', calculation='cpu')
-#'
-#' @author Stefanie Friedrichs, Juliane Manitz
-#' @rdname calc_kernel
-#' @name calc_kernel
-#' @aliases calc_kernel,GWASdata-method
+#' lin_kernel <- calc_kernel(gwas, hsa04020, knots=NULL, type='lin', calculation='cpu')
+#' summary(lin_kernel)
+#' net_kernel <- calc_kernel(gwas, hsa04020, knots=NULL, type='net', calculation='cpu')
+#' summary(net_kernel)
+#' 
 #' @export
+#' @name calc_kernel
+#' @rdname calc_kernel
+#' @aliases calc_kernel,GWASdata-method
+#' 
 #' @seealso \code{\link{kernel-class}},\code{\link{pathway}}
 setMethod('calc_kernel', signature(object = 'GWASdata'),
        definition = function(object, pathway, knots = NULL,
@@ -186,8 +197,13 @@ setMethod('calc_kernel', signature(object = 'GWASdata'),
 ############################### kernel functions ##############################
 # calculate linear kernel
 setGeneric('lin_kernel', function(object, ...) standardGeneric('lin_kernel'))
-#' @describeIn calc_kernel Calculates a linear kernel 
-# @export
+#' \code{lin_kernel} calculate a linear kernel 
+#' 
+#' @export
+#' @describeIn calc_kernel
+#' 
+#' @aliases lin_kernel calc_kernel 
+#' 
 setMethod('lin_kernel', signature(object = 'GWASdata'),
           definition = function(object, pathway, knots=NULL,
                        calculation = c('cpu', 'gpu'), ...) {
@@ -228,8 +244,13 @@ setMethod('lin_kernel', signature(object = 'GWASdata'),
 
 # create size-adjusted kernel
 setGeneric('sia_kernel', function(object, ...) standardGeneric('sia_kernel'))
-#' @describeIn calc_kernel Calculates a size adjusted-kernel
-# @export 
+#' \code{sia_kernel} calculates a size-adjusted kernel
+#' 
+#' @export 
+#' @describeIn calc_kernel 
+#' 
+#' @aliases sia_kernel calc_kernel 
+#' 
 setMethod('sia_kernel', signature(object = 'GWASdata'),
           definition = function(object, pathway, knots=NULL,
                        calculation = c('cpu', 'gpu'), ...) {
@@ -333,8 +354,13 @@ setMethod('sia_kernel', signature(object = 'GWASdata'),
 
 # calculate network-based kernel
 setGeneric('net_kernel', function(object, ...) standardGeneric('net_kernel'))
-#' @describeIn calc_kernel Calculates a network-based kernel 
-# @export
+#' \code{net_kernel} calculates a network-based kernel
+#' 
+#' @export
+#' @describeIn calc_kernel  
+#' 
+#' @aliases net_kernel calc_kernel 
+# @aliases net_kernel,GWASdata-method
 setMethod('net_kernel', signature(object = 'GWASdata'),
           definition = function(object, pathway, knots=NULL,
                        calculation = c('cpu', 'gpu'), ...) {
@@ -375,7 +401,7 @@ setGeneric('rewire_network', function(object, ...) standardGeneric('rewire_netwo
 #' represented by any SNPs in the considered \code{\link{GWASdata}} dataset.   
 #'
 #' @export
-#' @author Stefanie Friedrichs, Juliane Manitz
+#' @author Juliane Manitz, Stefanie Friedrichs
 #'
 #' @param object \code{\link{pathway}} object which's network \code{matrix} will be rewired
 #' @param x A \code{vector} of gene names, indicating which genes are not represented
@@ -386,11 +412,12 @@ setGeneric('rewire_network', function(object, ...) standardGeneric('rewire_netwo
 #' @rdname rewire_network
 #' @aliases rewire_network,pathway-method
 #' @examples
-#' \dontrun{ 
+#' \dontrun{
 #' data(hsa04020)
-#' rewire_network(hsa04020, c("PHKB", "ORAI2"))
+#' summary(hsa04020)
+#' hsa04020_rewired <- rewire_network(hsa04020, x=c('ADCY3', 'CALML3','GNAQ'))
+#' summary(hsa04020_rewired)
 #' }
-## @references TODO Newman?   
 setMethod('rewire_network', signature(object = 'pathway'),
           definition = function(object, x) {
           
@@ -517,6 +544,12 @@ setGeneric('make_psd', function(x, ...) standardGeneric('make_psd'))
 #' \itemize{
 #'  \item Freytag S, Manitz J, Schlather M, Kneib T, Amos CI, Risch A, Chang-Claude J, Heinrich J, Bickeboeller H: A network-based kernel machine test for the identification of risk pathways in genome-wide association studies. Hum Hered. 2013, 76(2):64-75.
 #' }
+#' @examples
+#' set.seed(2345)
+#' m <- matrix(data=sample(size=25, c(0,0,1), replace=TRUE),5,5)
+#' m <- m + t(m)
+#' min(eigen(m, only.values = TRUE, symmetric = TRUE)$values)
+#' round(make_psd(m),2)
 #'
 #' @export
 ## @rdname make_psd
@@ -545,8 +578,7 @@ setMethod('make_psd', signature = 'matrix',
 #' @param object An object of class \code{kernel}
 #'
 #' @examples
-#' data(net.kernel.hsa04020)
-#' show(net.kernel.hsa04020)
+#' show(net_kernel)
 #' @export
 #' @rdname kernel-class
 setMethod('show', signature('kernel'),
@@ -562,13 +594,14 @@ setGeneric('summary', function(object) standardGeneric('summary'))
 #' \code{summary} generates a \code{kernel} object summary including the number of 
 #' individuals and genes for the \code{\link{pathway}}
 #' @examples
-#' summary(net.kernel.hsa04020)
+#' summary(net_kernel)
 #' @export
 #' @rdname kernel-class
 #' @aliases summary,kernel,ANY-method
 setMethod('summary', signature='kernel',
           definition = function(object){
-              cat('An object of class ', class(object), ' of type ', object@type,' for pathway ', object@pathway@id, ' with values: \n\n',sep='')
+              cat('An object of class ', class(object), ' of type ', object@type,' for pathway ', object@pathway@id, ' with values: \n',sep='')
+	      print(summary(as.vector(object@kernel)))
               cat(paste('\nNumber of Individuals:',dim(object@kernel)[1]),'\n')
               cat(paste('The pathway contains',dim(object@pathway@adj)[1],'genes.\n'))#,'genes and', SNPno[2], 'SNPs.\n'))
               invisible(NULL)
@@ -587,7 +620,8 @@ if (!isGeneric("plot")) setGeneric('plot')
 #' @export
 #' @rdname kernel-class
 #' @examples
-#' plot(net.kernel.hsa04020)
+#' plot(net_kernel, hclust=TRUE)
+#'
 #' @aliases plot,kernel,ANY-method
 setMethod('plot', signature(x='kernel',y='missing'),
           function(x, y=NA, hclust=FALSE, ...){

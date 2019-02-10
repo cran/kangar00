@@ -51,10 +51,14 @@ or \code{'net'} for the network-based kernel.}
 }}
 
 \examples{
-data(net.kernel.hsa04020)
-show(net.kernel.hsa04020)
-summary(net.kernel.hsa04020)
-plot(net.kernel.hsa04020)
+data(gwas)
+data(hsa04020)
+net_kernel <- calc_kernel(gwas, hsa04020, knots=NULL, type='net', calculation='cpu')
+
+show(net_kernel)
+summary(net_kernel)
+plot(net_kernel, hclust=TRUE)
+
 }
 \author{
 Juliane Manitz

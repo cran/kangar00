@@ -52,16 +52,13 @@ R-package \pkg{biomaRt}.
 }}
 
 \examples{
-# snp_info
-data(rs10243170_info) 
-snp_info(c("rs234"))
+data(rs10243170_info) # snp_info("rs10243170")
 
-# show
-data(rs10243170_info)
 rs10243170_info
-# summary
-data(rs10243170_info)
 summary(rs10243170_info)
+}
+\seealso{
+\code{\link{pathway_info}}, \code{\link{get_anno}}
 }
 \author{
 Stefanie Friedrichs

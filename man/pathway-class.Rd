@@ -10,27 +10,20 @@
 \alias{summary,pathway,ANY-method}
 \alias{pathway2igraph,pathway-method}
 \alias{pathway2igraph}
-\alias{pathway}
 \alias{ANY-method}
 \alias{analyze,pathway-method}
 \alias{analyze}
-\alias{pathway}
-\alias{ANY-method}
 \alias{get_genes,pathway-method}
 \alias{get_genes}
-\alias{pathway}
-\alias{ANY-method}
 \alias{plot,pathway,missing-method}
 \alias{plot,pathway,ANY-method}
 \alias{sample_genes,pathway-method}
 \alias{sample_genes}
-\alias{pathway}
-\alias{ANY-method}
 \title{An S4 class to represent a gene-gene interaction network}
 \usage{
 pathway(object, ...)
 
-\S4method{pathway}{ANY}(id, adj, sign)
+\S4method{pathway}{ANY}(id, adj = matrix(0), sign = NULL)
 
 \S4method{show}{pathway}(object)
 
@@ -43,7 +36,7 @@ pathway(object, ...)
 \S4method{get_genes}{pathway}(object)
 
 \S4method{plot}{pathway,missing}(x, y = NA, highlight.genes = NULL,
-  gene.names = c("legend", "nodes", NA), main = NULL, asp = 0.95,
+  gene.names = c(NULL, "legend", "nodes"), main = NULL, asp = 0.95,
   vertex.size = 11, vertex.color = "khaki1", vertex.label.cex = 0.8,
   edge.width = 2, edge.color = "olivedrab4", ...)
 
@@ -87,6 +80,8 @@ each link (1 activation, -1 inhibition) in the interaction network for the \code
 \item{no}{a \code{numeric} constant specifying the number of genes to be sampled, default is 3}
 }
 \value{
+\code{pathway2igraph} returns an unweighted \code{\link[igraph]{igraph}} object with edge attribute \code{sign}
+
 \code{analyze} returns a \code{data.frame} consisting of 
   \describe{
    \item{id}{pathway id,} 
@@ -100,11 +95,16 @@ each link (1 activation, -1 inhibition) in the interaction network for the \code
    \item{trans}{transitivity, and }
    \item{s_trans}{signed transitivity (Kunegis et al., 2009).}
 }
+
+\code{get_genes} returns a character vector of gene names extracted from adjacency matrix rownames.
+
+\code{sample_genes} returns a \code{vector} of length \code{no} with 
+vertex id's of sampled genes
 }
 \description{
 An S4 class to represent a gene-gene interaction network
 
-\code{'pathway'} is the \code{\link{pathway}} object constructor.
+\code{pathway} is the \code{\link{pathway}} object constructor.
 
 \code{show} displays the \code{\link{pathway}} object briefly
 
@@ -119,11 +119,10 @@ analyze \code{\link{pathway}} network properties
 \code{\link{pathway}} and returns a \code{vector} containing \code{character}
 elements of gene names
 
-\code{plot} plots \code{\link{pathway}} as \code{\link[igraph]{igraph}} object
+\code{plot} visualizes the \code{\link{pathway}} as \code{\link[igraph]{igraph}} object
 
-\code{sample_genes} function randomly selects effect genes in a 
-\code{\link{pathway}} and returns a \code{vector} of length \code{no} with 
-vertex id's of sampled genes
+\code{sample_genes} randomly selects effect gene in a 
+\code{\link{pathway}} according the betweenness centrality and (no -1) neighors
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -149,26 +148,24 @@ each link (1 activation, -1 inhibition) in the interaction network for the
 }}
 
 \examples{
-pathway(id="hsa04022", adj=matrix(0), sign=as.vector(matrix(0)[matrix(0)!=0]))
+# pathway object constructor
+pathway(id="hsa04022")
 
-#show method
-data(hsa04020)
-hsa04020
-#summary method
-data(hsa04020)
-summary(hsa04020)
-# convert to \\code{\\link[igraph]{igraph}} object
+# convert to igraph object
 data(hsa04020)
 str(hsa04020)
 g <- pathway2igraph(hsa04020)
 str(g)
-# analyse \\code{\\link{pathway}} network properties
+
+# analyze pathway network properties
 data(hsa04020)
 summary(hsa04020)
 analyze(hsa04020)
-# extract gene names from \\code{\\link{pathway}}
+
+# extract gene names from pathway object
 get_genes(hsa04020)
-# plot \\code{\\link{pathway}} as \\code{\\link[igraph]{igraph}} object
+
+# plot pathway as igraph object
 plot(hsa04020)
 sample3 <- sample_genes(hsa04020, no = 3)
 plot(hsa04020, highlight.genes = sample3)
@@ -178,6 +175,7 @@ sample3 <- sample_genes(hsa04020, no = 3)
 plot(hsa04020, highlight.genes = sample3)
 sample5 <- sample_genes(hsa04020, no = 5)
 plot(hsa04020, highlight.genes = sample5)
+
 }
 \references{
 Details to the computation and interpretation can be found in:
@@ -187,5 +185,5 @@ Details to the computation and interpretation can be found in:
 }
 }
 \author{
-Juliane Manitz
+Juliane Manitz, Stefanie Friedrichs, Patricia Burger
 }

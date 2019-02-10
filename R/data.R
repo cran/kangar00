@@ -12,6 +12,13 @@
 #'  \item{age}{numerical value giving the persons age}
 #' }
 #' @usage data(pheno)
+#' @examples
+#' data(pheno)
+#' head(pheno)
+#' # create gwas object
+#' data(geno)
+#' data(anno)
+#' gwas <- new('GWASdata', pheno=pheno, geno=geno, anno=anno, desc="some study") 
 #' @source simulated data
 "pheno"
 
@@ -29,6 +36,13 @@
 #'  \item{position}{gives positions of example SNPs}
 #' }
 #' @usage data(anno)
+#' @examples
+#' data(anno)
+#' head(anno)
+#' # create gwas object
+#' data(pheno)
+#' data(geno)
+#' gwas <- new('GWASdata', pheno=pheno, geno=geno, anno=anno, desc="some study") 
 #' @source simulated data
 "anno"
 
@@ -44,6 +58,13 @@
 #' corresponding SNP and individual.
 #' }
 #' @usage data(geno)
+#' @examples
+#' data(geno)
+#' head(geno)
+#' # create gwas object
+#' data(pheno)
+#' data(anno)
+#' gwas <- new('GWASdata', pheno=pheno, geno=geno, anno=anno, desc="some study") 
 #' @source simulated data
 "geno"
 
@@ -60,6 +81,12 @@
 #'  \item{desc}{a description of the GWAS study, here 'example study'}
 #' }
 #' @usage data(gwas)
+#' @examples
+#' # create gwas object
+#' data(pheno)
+#' data(geno)
+#' data(anno)
+#' gwas <- new('GWASdata', pheno=pheno, geno=geno, anno=anno, desc="some study") 
 #' @source simulated data
 "gwas"
 
@@ -76,6 +103,16 @@
 #' the kernel matrix was calculated}
 #' }
 #' @usage data(net.kernel.hsa04020)
+#'
+#' @examples
+#' data(net.kernel.hsa04020)
+#' # derivation 
+#' data(gwas)
+#' data(hsa04020)
+#' net_kernel <- calc_kernel(gwas, hsa04020, knots=NULL, type='net', calculation='cpu')
+#' # are the value differences smaller than machine epsilon?
+#' all(abs(net.kernel.hsa04020@kernel - net_kernel@kernel) < sqrt(.Machine$double.eps))
+#' 
 #' @source simulated data and Ensembl extract
 "net.kernel.hsa04020"
 
@@ -99,6 +136,11 @@
 #' \item{p.value}{includes teh p-value resulting from the test}
 #' }
 #' @usage data(lkmt.net.kernel.hsa04020)
+#' @examples
+#' data(hsa04020)
+#' data(gwas)
+#' net_kernel <- calc_kernel(gwas, hsa04020, knots=NULL, type='net', calculation='cpu')
+#' lkmt_test(pheno ~ sex + age, net_kernel, gwas, method='satt')
 #' @source simulated data and Ensembl extract
 "lkmt.net.kernel.hsa04020"
 
@@ -131,6 +173,10 @@
 #' pathway. Has columns 'pathway', 'gene_start', 'gene_end', 'chr', and 'gene'}
 #' }
 #' @usage data(hsa04022_info)
+#' @examples
+#' \dontrun{
+#' pathway_info('hsa04020')
+#' }
 #' @source Ensembl extract
 "hsa04022_info"
 
@@ -145,5 +191,9 @@
 #' SNP. Columns given are 'chr', 'position', and 'rsnumber'}
 #' }
 #' @usage data(rs10243170_info)
+#' @examples
+#' \dontrun{
+#' snp_info("rs10243170")
+#' }
 #' @source Ensembl extract
 "rs10243170_info"

@@ -8,7 +8,6 @@
 \alias{summary,GWASdata-method}
 \alias{GeneSNPsize,GWASdata-method}
 \alias{GeneSNPsize}
-\alias{GWASdata}
 \title{S4 class for an object representing a Genome-wide Assocaition Study.}
 \usage{
 GWASdata(object, ...)
@@ -78,19 +77,15 @@ pack.years. Note: IDs have to be in the first column!}
 }}
 
 \examples{
+# create gwas data object
 data(pheno)
 data(geno)
 data(anno)
 gwas <- new('GWASdata', pheno=pheno, geno=geno, anno=anno, desc="some study") 
-# show method
-data(gwas) 
+# show and summary methods
 gwas
-# summary method
-data(gwas) 
 summary(gwas)
-
 # SNPs and genes in pathway
-data(gwas) 
 GeneSNPsize(gwas)
 }
 \author{

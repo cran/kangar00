@@ -18,7 +18,7 @@ contained in pathways. It is created by the \code{\link{pathway_info}}
 function and contains a \code{data frame} with columns 
 'pathway', 'gene_start', 'gene_end', 'chr', 'gene'.}
 
-\item{...}{further arguments can be added.}
+\item{...}{further argdata(hsa04020)}
 }
 \value{
 A \code{data.frame} mapping SNPs to genes and genes to
@@ -32,8 +32,8 @@ object into an annotation \code{data.frame} used for \code{\link{pathway}}
 analysis on GWAS. SNPs are assigned to pathways via gene membership.
 }
 \examples{
-data(hsa04022_info)
-data(rs10243170_info)
+data(hsa04022_info)  # pathway_info('hsa04020')
+data(rs10243170_info)# snp_info("rs10243170")
 get_anno(rs10243170_info, hsa04022_info)
 
 }
