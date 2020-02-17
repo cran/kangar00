@@ -45,7 +45,7 @@ pathway(object, ...)
 \arguments{
 \item{object}{An object of class \code{pathway-class}}
 
-\item{...}{further arguments specifying plotting options in \code{plot.igraph}}
+\item{...}{Further arguments can be added to the function.}
 
 \item{id}{A \code{character} repesenting the \code{\link{pathway}} id.}
 

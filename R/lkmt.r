@@ -93,7 +93,7 @@ setGeneric('summary', function(object, ...) standardGeneric('summary'))
 #' \code{summary} generates a \code{lkmt} object summary including the used kernel, pathway and the test result
 #'
 ## @param object An object of class \code{\link{lkmt}}.
-#' @param ... Further arguments can be added to the function
+# #' @param ... Further arguments can be added to the function
 #' @return \code{summary} Summarized information on \code{lkmt} object.
 #' @examples
 #' # summary method
