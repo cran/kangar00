@@ -1,11 +1,11 @@
-7aaa82e18a3ab96f54c00bb71910b1d0 *DESCRIPTION
-7729b8b06fc7dc9c2a74f8fcc2326877 *NAMESPACE
-89f5c0496f8261b134a31fd4368be461 *R/GWASdata.r
+70b780f1ae87b73fbeec4527a08a46f3 *DESCRIPTION
+8bb591977e3cd24fbb404f4a33ed79c0 *NAMESPACE
+e95ce46385f13fdcb8a482f9b48334a4 *R/GWASdata.r
 741eae52dfd4f1d52852e0c44e18efb5 *R/data.R
-d22a68831ee208568bd63e87ad05103a *R/get_network_matrix.r
+2d5ca80a98c61bb0961c83917d569471 *R/get_network_matrix.r
 6f791a311bcd072bf140f80ddc9ece46 *R/kernel.r
 eb77d9270854691adc894f202ee17087 *R/lkmt.r
-99b249df668975571dde4ba98d2966d9 *R/pathway.r
+b76c7885bfd1416da25de9940829b26f *R/pathway.r
 8dabd9ede2dc709f728736cee1bcc85d *data/anno.RData
 d3ddfb8060113dac4d49cb4b7c8378bc *data/geno.RData
 1f19da823473237f8b791392bb28d6f2 *data/gwas.RData
@@ -15,7 +15,7 @@ d3ddfb8060113dac4d49cb4b7c8378bc *data/geno.RData
 b93b9b8be03a4ef118416593908c73a7 *data/net.kernel.hsa04020.RData
 9a4b8a8bc204ae55a168b4d0c2bd25a7 *data/pheno.RData
 abf442cb4f3576e817017cd0bfc238d3 *data/rs10243170_info.RData
-d3e958e4fe11f8e3b51b39fb054ca0c7 *inst/CITATION
+dc0995556ae280aa752a752bc3cea969 *inst/CITATION
 d4bc3fe1a056a29a8bc6dcf6da0e5ea7 *inst/extdata/geno.txt
 ec95ebc33041d55fe9ca70ed801f97e5 *man/GWASdata-class.Rd
 f85dfb331f6a8e035d40a0ff05b2da4b *man/anno.Rd
